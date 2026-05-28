@@ -69,27 +69,23 @@ cardwise-ai/
 
 ---
 
+
 ## Screenshots
 
 ### Landing Page
-
-![Landing](./screenshots/landing.png)
+<img src="screenshots/landing.png" width="100%" />
 
 ### Recommendation Engine
-
-![Recommendation](./screenshots/recommendation.png)
+<img src="screenshots/recommendation.png" width="100%" />
 
 ### Compare Cards
-
-![Compare](./screenshots/compare.png)
+<img src="screenshots/compare.png" width="100%" />
 
 ### OTP Flow
-
-![OTP](./screenshots/otp.png)
+<img src="screenshots/otp.png" width="100%" />
 
 ### Dashboard
-
-![Dashboard](./screenshots/dashboard.png)
+<img src="screenshots/dashboard.png" width="100%" />
 
 ---
 
