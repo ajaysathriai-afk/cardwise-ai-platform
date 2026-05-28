@@ -1,0 +1,9 @@
+# CardWise AI — AI-Powered Credit Card Intelligence Platform
+
+> CardWise AI is a fintech intelligence platform that matches users with the perfect credit card through a conversational AI flow, transparent scoring, and personalized reward simulations.
+
+CardWise AI uses a 7-question chip-based onboarding plus an explainable scoring engine to recommend the best-fit card from a curated catalog, with confidence scores, reward projections, and human-readable reasoning.
+
+## Pages
+
+- [Home](/): Conversational onboarding flow, AI recommendation, reward simulator, side-by-side compare, and personal dashboard.
