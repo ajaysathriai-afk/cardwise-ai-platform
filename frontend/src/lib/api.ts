@@ -1,5 +1,5 @@
 export async function fetchRecommendation(data: any) {
-  const response = await fetch("https://YOUR-RENDER-URL.onrender.com/recommend", {
+  const response = await fetch("https://cardwise-backend-y4wv.onrender.com/recommend", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
