@@ -1,5 +1,5 @@
 export async function fetchRecommendation(data: any) {
-  const response = await fetch("http://127.0.0.1:8000/recommend", {
+  const response = await fetch("https://YOUR-RENDER-URL.onrender.com/recommend", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
