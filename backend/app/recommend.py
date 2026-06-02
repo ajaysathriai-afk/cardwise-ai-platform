@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import List
+from app.database import supabase
 
 class UserInput(BaseModel):
     categories: List[str]
@@ -9,22 +10,29 @@ class UserInput(BaseModel):
     income: str
 
 def generate_recommendation(data: UserInput):
-    if "travel" in data.categories:
+
+    category = data.categories[0]
+
+    result = (
+        supabase.table("cards")
+        .select("*")
+        .eq("category", category)
+        .execute()
+    )
+
+    cards = result.data
+
+    if not cards:
         return {
-            "recommended_card": "Sapphire Reserve Black",
-            "reason": "Best for travel and lounge rewards",
-            "confidence": 96
+            "recommended_card": "No Match Found",
+            "reason": "No cards available",
+            "confidence": 0
         }
 
-    if "shopping" in data.categories:
-        return {
-            "recommended_card": "Cashback Max Pro",
-            "reason": "High cashback on shopping",
-            "confidence": 93
-        }
+    best_card = cards[0]
 
     return {
-        "recommended_card": "Everyday Smart Saver",
-        "reason": "Balanced lifestyle rewards",
-        "confidence": 88
+        "recommended_card": best_card["card_name"],
+        "reason": best_card["description"],
+        "confidence": 95
     }
