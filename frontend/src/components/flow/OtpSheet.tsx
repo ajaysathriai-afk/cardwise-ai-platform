@@ -38,7 +38,9 @@ export function OtpSheet({ open, onClose, card }: { open: boolean; onClose: () =
           </div>
           <button
             disabled={phone.length !== 10}
-            onClick={() => { update("phone", phone); setPhase("otp"); }}
+            onClick={() => {
+              setPhase("otp");
+            }}
             className="w-full h-14 rounded-2xl bg-[var(--accent)] text-white font-semibold disabled:opacity-30"
           >
             Send OTP

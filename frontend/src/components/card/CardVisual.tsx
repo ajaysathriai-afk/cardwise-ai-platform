@@ -28,7 +28,12 @@ export function CardVisual({ card, size = "lg", interactive = true }: Props) {
       ref={ref}
       onPointerMove={handleMove}
       onPointerLeave={handleLeave}
-      style={{ rotateX, rotateY, transformPerspective: 1000, background: card.gradient }}
+      style={{
+        rotateX,
+        rotateY,
+        transformPerspective: 1000,
+        background: `linear-gradient(135deg, ${card.accent}44 0%, #0a0a14 100%)`,
+      }}
       className={`${dims} rounded-2xl relative overflow-hidden border border-white/10 shadow-2xl`}
     >
       {/* Highlight */}
@@ -44,11 +49,15 @@ export function CardVisual({ card, size = "lg", interactive = true }: Props) {
       {/* Chip */}
       <div className="absolute top-5 left-5 w-10 h-7 rounded-md bg-gradient-to-br from-yellow-200/80 to-yellow-600/60 border border-yellow-100/30" />
       {/* Logo */}
-      <div className="absolute top-5 right-5 text-white/90 font-semibold text-xs tracking-widest">AXIS</div>
+      <div className="absolute top-5 right-5 text-white/90 font-semibold text-xs tracking-widest">
+        {card.name.split(" ")[0].toUpperCase()}
+      </div>
       {/* Name */}
       <div className="absolute bottom-5 left-5 right-5">
-        <div className="text-[10px] text-white/60 tracking-[0.2em] uppercase mb-1">{card.tier}</div>
-        <div className="text-white font-semibold text-lg leading-tight">{card.name}</div>
+      <div className="text-[10px] text-white/60 tracking-[0.2em] uppercase mb-1">
+        {card.rewardCurrency || "PREMIUM"}
+      </div>
+      <div className="text-white font-semibold text-lg leading-tight">{card.name}</div>
       </div>
       {/* Network */}
       <div className="absolute bottom-5 right-5 flex gap-1">

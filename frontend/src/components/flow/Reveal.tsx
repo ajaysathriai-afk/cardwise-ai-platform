@@ -1,10 +1,10 @@
 import { fetchRecommendation } from "@/lib/api";
 import { useEffect } from "react";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { toast } from "sonner";
 import { useFlowStore } from "@/store/useFlowStore";
-import { recommend, type Recommendation } from "@/lib/recommend";
+import type { Recommendation } from "@/lib/recommend";
 import { CardVisual } from "@/components/card/CardVisual";
 import { ConfidencePill } from "@/components/card/ConfidencePill";
 import { ReasonAccordion } from "@/components/card/ReasonAccordion";
@@ -16,15 +16,38 @@ export function Reveal() {
   const answers = useFlowStore((s) => s.answers);
   const save = useFlowStore((s) => s.save);
   const saved = useFlowStore((s) => s.saved);
-  const { top, alts } = useMemo(() => recommend(answers), [answers]);
+  const [top, setTop] = useState<any>(null);
+  const [alts, setAlts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
   const [compareOpen, setCompareOpen] = useState(false);
   const [detail, setDetail] = useState<Recommendation | null>(null);
   const [otpOpen, setOtpOpen] = useState(false);
   useEffect(() => {
-    fetchRecommendation(answers).then((res) => {
-      console.log("Backend Connected:", res);
-    });
+    async function loadRecommendation() {
+      try {
+        setLoading(true);
+  
+        const res = await fetchRecommendation(answers);
+  
+        setTop(res.top);
+        setAlts(res.alts || []);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    }
+  
+    loadRecommendation();
   }, [answers]);
+
+  if (loading || !top) {
+    return (
+      <div className="flex items-center justify-center min-h-svh">
+        Loading recommendations...
+      </div>
+    );
+  }
 
   const isSaved = saved.includes(top.card.id);
 
