@@ -29,7 +29,14 @@ def generate_recommendation(data: UserInput):
             "confidence": 0
         }
 
-    income = int(data.income)
+    income_map = {
+        "lt6": 500000,
+        "6to12": 900000,
+        "12to25": 1800000,
+        "gt25": 3000000
+    }
+
+    income = income_map.get(data.income, 500000)
 
     scored_cards = []
 
@@ -72,51 +79,55 @@ def generate_recommendation(data: UserInput):
 
     top = scored_cards[0]
 
-    return {
-    "top": {
-        "card": {
-            "id": str(top["card"]["id"]),
-            "name": top["card"]["card_name"],
-            "annualFee": top["card"]["annual_fee"],
-            "accent": "#7c5cff",
-            "rewardCurrency": "Points",
-            "loungeDomestic": 12 if top["card"]["lounge_access"] else 0,
-            "loungeIntl": 4 if top["card"]["lounge_access"] else 0
-        },
-        "score": top["score"],
-        "confidence": top["score"],
-        "reasons": [
-            top["card"]["description"]
-        ],
-        "estAnnualReward": (
-            data.monthly_spend *
-            12 *
-            top["card"]["reward_rate"] / 100
-        )
-    },
+    alts = []
 
-    "alts": [
-        {
+    for item in scored_cards[1:3]:
+
+        card = item["card"]
+
+        alts.append({
             "card": {
-                "id": str(item["card"]["id"]),
-                "name": item["card"]["card_name"],
-                "annualFee": item["card"]["annual_fee"],
-                "accent": "#00c2ff",
-                "rewardCurrency": "Points",
-                "loungeDomestic": 12 if item["card"]["lounge_access"] else 0,
-                "loungeIntl": 4 if item["card"]["lounge_access"] else 0
+                "id": str(card["id"]),
+                "name": card["card_name"],
+                "annualFee": card["annual_fee"],
+                "joiningFee": card["joining_fee"],
+                "feeWaiverSpend": card["fee_waiver_spend"],
+                "minIncome": card["min_income"],
+                "forexMarkup": float(card["forex_markup"]),
+                "topPerks": card["top_perks"] or [],
+                "accent": card["accent"],
+                "rewardCurrency": card["reward_currency"],
+                "loungeDomestic": card["lounge_domestic"],
+                "loungeIntl": card["lounge_intl"]
             },
             "score": item["score"],
             "confidence": item["score"],
-            "reasons": [
-                item["card"]["description"]
-            ],
-            "estAnnualReward": (
-                data.monthly_spend *
-                12 *
-                item["card"]["reward_rate"] / 100
-            )
-        }
-        for item in scored_cards[1:3]
-    ]
-}
+            "reasons": [card["description"]],
+            "estAnnualReward": int(data.monthly_spend * 12 * (card["reward_rate"] / 100))
+        })
+
+    card = top["card"]
+
+    return {
+        "top": {
+            "card": {
+                "id": str(card["id"]),
+                "name": card["card_name"],
+                "annualFee": card["annual_fee"],
+                "joiningFee": card["joining_fee"],
+                "feeWaiverSpend": card["fee_waiver_spend"],
+                "minIncome": card["min_income"],
+                "forexMarkup": float(card["forex_markup"]),
+                "topPerks": card["top_perks"] or [],
+                "accent": card["accent"],
+                "rewardCurrency": card["reward_currency"],
+                "loungeDomestic": card["lounge_domestic"],
+                "loungeIntl": card["lounge_intl"]
+            },
+            "score": top["score"],
+            "confidence": top["score"],
+            "reasons": [card["description"]],
+            "estAnnualReward": int(data.monthly_spend * 12 * (card["reward_rate"] / 100))
+        },
+        "alts": alts
+    }
