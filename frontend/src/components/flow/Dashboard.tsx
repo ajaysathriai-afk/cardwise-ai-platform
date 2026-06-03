@@ -3,24 +3,37 @@ import { useFlowStore } from "@/store/useFlowStore";
 import { CARDS, type Card, type SpendCategory } from "@/data/cards";
 import { CardVisual } from "@/components/card/CardVisual";
 
-function projectAnnualReward(card: Card, monthlySpend: number, cats: SpendCategory[]) {
-  const c = cats.length ? cats : (["shopping", "food"] as SpendCategory[]);
-  const avg = c.reduce((s, k) => s + (card.rewardsRate[k] ?? 0), 0) / c.length;
-  return Math.round(monthlySpend * 12 * (avg / 100));
+function projectAnnualReward(
+  card: any,
+  monthlySpend: number
+) {
+  return Math.round(monthlySpend * 12 * 0.03);
 }
+
 
 export function Dashboard() {
   const saved = useFlowStore((s) => s.saved);
   const applied = useFlowStore((s) => s.applied);
+  const recommendedCard = useFlowStore(
+    (s) => s.recommendedCard
+  );
+
   const answers = useFlowStore((s) => s.answers);
   const reset = useFlowStore((s) => s.reset);
-  const appliedCard = applied ? CARDS.find((c) => c.id === applied) : null;
-  const savedCards = CARDS.filter((c) => saved.includes(c.id) && c.id !== applied);
+  const appliedCard = recommendedCard;
+  console.log("SAVED IDS =", saved);
+  console.log("APPLIED =", applied);
+  console.log("RECOMMENDED =", recommendedCard);
+
+const savedCards = [];
   const portfolio = [appliedCard, ...savedCards].filter(Boolean) as Card[];
 
   const totalProjected = portfolio.reduce(
-    (sum, c) => sum + projectAnnualReward(c, answers.monthlySpend, answers.categories),
-    0,
+    (sum, c) => sum + projectAnnualReward(
+      c,
+      answers.monthlySpend
+    ),
+    0
   );
   const totalFees = portfolio.reduce((s, c) => s + c.annualFee, 0);
   const netValue = totalProjected - totalFees;
@@ -77,13 +90,16 @@ export function Dashboard() {
           </div>
         </div>
       )}
-
+      
       {savedCards.length > 0 && (
         <div className="mb-8">
           <div className="text-xs text-muted-foreground tracking-widest uppercase mb-3">Saved · projected returns</div>
           <div className="space-y-3">
             {savedCards.map((c) => {
-              const reward = projectAnnualReward(c, answers.monthlySpend, answers.categories);
+              const reward = projectAnnualReward(
+                c,
+                answers.monthlySpend
+              );
               return (
                 <div key={c.id} className="flex items-center gap-4 p-3 rounded-2xl bg-[var(--surface)] border border-white/8 hover:border-white/15 transition-colors">
                   <CardVisual card={c} size="sm" interactive={false} />

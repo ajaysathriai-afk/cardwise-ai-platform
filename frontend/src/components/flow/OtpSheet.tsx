@@ -64,6 +64,7 @@ export function OtpSheet({ open, onClose, card }: { open: boolean; onClose: () =
             disabled={otp.length !== 4}
             onClick={() => {
               apply(card.id);
+              console.log("APPLY CARD ID =", card.id);
               toast.success("Application submitted", { description: `${card.name} · review within 24h` });
               setPhase("done");
             }}

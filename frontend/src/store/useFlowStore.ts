@@ -29,6 +29,8 @@ export interface Answers {
 }
 
 interface FlowState {
+  recommendedCard: any;
+  setRecommendedCard: (card: any) => void;
   step: Step;
   answers: Answers;
   saved: string[];
@@ -40,6 +42,7 @@ interface FlowState {
   reset: () => void;
   save: (id: string) => void;
   apply: (id: string) => void;
+  setRecommendedCard: (card: any) => void;
 }
 
 const ORDER: Step[] = [
@@ -56,6 +59,7 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   step: "hero",
   answers: initialAnswers,
   saved: [],
+  recommendedCard: null,
   setStep: (s) => set({ step: s }),
   next: () => {
     const i = ORDER.indexOf(get().step);
@@ -69,4 +73,5 @@ export const useFlowStore = create<FlowState>((set, get) => ({
   reset: () => set({ step: "hero", answers: initialAnswers }),
   save: (id) => set((s) => ({ saved: s.saved.includes(id) ? s.saved : [...s.saved, id] })),
   apply: (id) => set({ applied: id }),
+  setRecommendedCard: (card) => set({ recommendedCard: card }),
 }));

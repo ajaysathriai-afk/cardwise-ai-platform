@@ -1,8 +1,9 @@
-from app.recommend import generate_recommendation
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
+
+from app.recommend import generate_recommendation
 
 app = FastAPI(
     title="CardWise AI Backend",
@@ -18,6 +19,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+
 class UserInput(BaseModel):
     categories: List[str]
     monthly_spend: int
@@ -25,11 +27,13 @@ class UserInput(BaseModel):
     fee_tolerance: str
     income: str
 
+
 @app.get("/")
 def home():
     return {
         "message": "CardWise AI Backend Running 🚀"
     }
+
 
 @app.get("/health")
 def health():
@@ -37,9 +41,10 @@ def health():
         "status": "healthy"
     }
 
+
 @app.post("/recommend")
 def recommend(user: UserInput):
 
-    recommendation = generate_recommendation(user)
+    result = generate_recommendation(user)
 
-    return recommendation
+    return result

@@ -13,9 +13,13 @@ import { CardDetailSheet } from "./CardDetailSheet";
 import { OtpSheet } from "./OtpSheet";
 
 export function Reveal() {
+  const apply = useFlowStore((s) => s.apply);
   const answers = useFlowStore((s) => s.answers);
   const save = useFlowStore((s) => s.save);
   const saved = useFlowStore((s) => s.saved);
+  const setRecommendedCard = useFlowStore(
+    (s) => s.setRecommendedCard
+  );
   const [top, setTop] = useState<any>(null);
   const [alts, setAlts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -28,9 +32,14 @@ export function Reveal() {
         setLoading(true);
   
         const res = await fetchRecommendation(answers);
+
+        console.log("FULL RESPONSE =", res);
+        console.log("TOP =", res.top);
+        console.log("ALTS =", res.alts);
   
         setTop(res.top);
         setAlts(res.alts || []);
+        setRecommendedCard(res.top.card);
       } catch (error) {
         console.error(error);
       } finally {
@@ -41,12 +50,8 @@ export function Reveal() {
     loadRecommendation();
   }, [answers]);
 
-  if (loading || !top) {
-    return (
-      <div className="flex items-center justify-center min-h-svh">
-        Loading recommendations...
-      </div>
-    );
+  if (!top) {
+    return null;
   }
 
   const isSaved = saved.includes(top.card.id);
@@ -128,7 +133,10 @@ export function Reveal() {
           </button>
           <motion.button
             whileTap={{ scale: 0.97 }}
-            onClick={() => setOtpOpen(true)}
+            onClick={() => {
+              apply(top.card.id);
+              setOtpOpen(true);
+            }}
             className="h-14 rounded-2xl bg-[var(--accent)] text-white font-semibold text-sm glow-violet"
           >
             Apply now →
