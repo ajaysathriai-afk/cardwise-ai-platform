@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from typing import List
 from app.database import supabase
+from app.ai_service import generate_ai_explanation
 import time
 
 
@@ -147,6 +148,21 @@ def generate_recommendation(data: UserInput):
     print("INSERT RESULT =", insert_result)
     print("TIME TAKEN =", time.time() - start)
 
+    ai_explanation = generate_ai_explanation(
+        {
+            "categories": data.categories,
+            "income": data.income,
+            "priority": data.priority,
+            "monthly_spend": data.monthly_spend
+        },
+        card["card_name"],
+        [
+            f"{top_reward}% rewards on {category} spends",
+            f"₹{card['annual_fee']} annual fee",
+            f"{card['lounge_domestic']} lounge visits included"
+        ]
+    )
+
     return {
         "top": {
             "card": {
@@ -174,5 +190,6 @@ def generate_recommendation(data: UserInput):
                 data.monthly_spend * 12 * (top_reward / 100)
             )
         },
-        "alts": alts
+        "alts": alts,
+        "ai_explanation": ai_explanation
     }
