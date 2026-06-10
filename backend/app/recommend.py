@@ -5,6 +5,7 @@ from app.ai_service import generate_ai_explanation
 import time
 
 
+
 class UserInput(BaseModel):
     categories: List[str]
     monthly_spend: int
