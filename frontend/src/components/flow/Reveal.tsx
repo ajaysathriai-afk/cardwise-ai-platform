@@ -24,6 +24,7 @@ export function Reveal() {
   const [alts, setAlts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [financialInsight, setFinancialInsight] = useState("");
+  const [rewardOptimization, setRewardOptimization] = useState("");
   const [compareOpen, setCompareOpen] = useState(false);
   const [detail, setDetail] = useState<Recommendation | null>(null);
   const [aiExplanation, setAiExplanation] = useState("");
@@ -42,6 +43,7 @@ export function Reveal() {
         setTop(res.top);
         setAlts(res.alts || []);
         setFinancialInsight(res.financial_insight || "");
+        setRewardOptimization( res.reward_optimization || "");
         setAiExplanation(res.ai_explanation || "");
         setRecommendedCard(res.top.card);
       } catch (error) {
@@ -141,6 +143,17 @@ export function Reveal() {
 
               <p className="text-sm text-muted-foreground leading-relaxed">
                 {financialInsight}
+              </p>
+            </div>
+          )}
+          {rewardOptimization && (
+            <div className="mt-4 rounded-2xl bg-white/5 border border-white/10 p-4">
+              <div className="text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
+                Reward Optimization
+              </div>
+
+              <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                {rewardOptimization}
               </p>
             </div>
           )}

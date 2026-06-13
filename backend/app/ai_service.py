@@ -89,3 +89,40 @@ def generate_financial_insight(
     )
 
     return response.choices[0].message.content
+
+def generate_reward_optimization(
+    monthly_spend,
+    annual_reward,
+    card_name,
+    category
+):
+
+    prompt = f"""
+    User monthly spend: ₹{monthly_spend}
+
+    Estimated annual rewards:
+    ₹{annual_reward}
+
+    Recommended card:
+    {card_name}
+
+    Main category:
+    {category}
+
+    Give 3 practical tips to maximize rewards.
+
+    Keep response concise.
+    Number each point.
+    """
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+
+    return response.choices[0].message.content

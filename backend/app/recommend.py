@@ -3,7 +3,8 @@ from typing import List
 from app.database import supabase
 from app.ai_service import (
     generate_ai_explanation,
-    generate_financial_insight
+    generate_financial_insight,
+    generate_reward_optimization
 )
 import time
 
@@ -176,7 +177,16 @@ def generate_recommendation(data: UserInput):
         ),
         data.priority
     )
-
+    reward_optimization = generate_reward_optimization(
+        data.monthly_spend,
+        int(
+            data.monthly_spend
+            * 12
+            * (top_reward / 100)
+        ),
+        card["card_name"],
+        category
+    )
     return {
         "top": {
             "card": {
@@ -206,5 +216,6 @@ def generate_recommendation(data: UserInput):
         },
         "alts": alts,
         "ai_explanation": ai_explanation,
-        "financial_insight": financial_insight
+        "financial_insight": financial_insight,
+        "reward_optimization": reward_optimization
     }
