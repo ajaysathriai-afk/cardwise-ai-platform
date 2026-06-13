@@ -1,5 +1,5 @@
 from openai import OpenAI
-from retriever import search_docs
+from app.rag.retriever import search_docs
 import os
 from dotenv import load_dotenv
 

@@ -1,11 +1,16 @@
 from langchain_community.vectorstores import Chroma
 from langchain_community.embeddings import HuggingFaceEmbeddings
 
-DB_FOLDER = "../../vector_db"
+DB_FOLDER = "vector_db"
 
 embeddings = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
+
+import os
+
+print("CURRENT DIR =", os.getcwd())
+print("DB FOLDER =", DB_FOLDER)
 
 vectordb = Chroma(
     persist_directory=DB_FOLDER,
