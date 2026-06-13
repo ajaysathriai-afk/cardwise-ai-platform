@@ -1,7 +1,10 @@
 from pydantic import BaseModel
 from typing import List
 from app.database import supabase
-from app.ai_service import generate_ai_explanation
+from app.ai_service import (
+    generate_ai_explanation,
+    generate_financial_insight
+)
 import time
 
 
@@ -164,6 +167,16 @@ def generate_recommendation(data: UserInput):
         ]
     )
 
+    financial_insight = generate_financial_insight(
+        data.monthly_spend,
+        int(
+            data.monthly_spend
+            * 12
+            * (top_reward / 100)
+        ),
+        data.priority
+    )
+
     return {
         "top": {
             "card": {
@@ -192,5 +205,6 @@ def generate_recommendation(data: UserInput):
             )
         },
         "alts": alts,
-        "ai_explanation": ai_explanation
+        "ai_explanation": ai_explanation,
+        "financial_insight": financial_insight
     }

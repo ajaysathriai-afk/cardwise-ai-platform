@@ -23,8 +23,10 @@ export function Reveal() {
   const [top, setTop] = useState<any>(null);
   const [alts, setAlts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [financialInsight, setFinancialInsight] = useState("");
   const [compareOpen, setCompareOpen] = useState(false);
   const [detail, setDetail] = useState<Recommendation | null>(null);
+  const [aiExplanation, setAiExplanation] = useState("");
   const [otpOpen, setOtpOpen] = useState(false);
   useEffect(() => {
     async function loadRecommendation() {
@@ -39,6 +41,8 @@ export function Reveal() {
   
         setTop(res.top);
         setAlts(res.alts || []);
+        setFinancialInsight(res.financial_insight || "");
+        setAiExplanation(res.ai_explanation || "");
         setRecommendedCard(res.top.card);
       } catch (error) {
         console.error(error);
@@ -50,8 +54,17 @@ export function Reveal() {
     loadRecommendation();
   }, [answers]);
 
-  if (!top) {
-    return null;
+  if (loading || !top) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-10 h-10 border-2 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-sm text-muted-foreground">
+            Generating your AI recommendation...
+          </p>
+        </div>
+      </div>
+    );
   }
 
   const isSaved = saved.includes(top.card.id);
@@ -109,9 +122,32 @@ export function Reveal() {
             <span className="text-[10px] text-[var(--accent)] uppercase tracking-widest">AI-generated</span>
           </div>
           <ReasonAccordion reasons={top.reasons} />
+          {aiExplanation && (
+           <div className="mt-4 rounded-2xl bg-white/5 border border-white/10 p-4">
+              <div className="text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
+                AI Insight
+              </div>
+ 
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {aiExplanation}
+              </p>
+            </div>
+          )}
+          {financialInsight && (
+            <div className="mt-4 rounded-2xl bg-white/5 border border-white/10 p-4">
+              <div className="text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
+                Financial Insight
+              </div>
+
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                {financialInsight}
+              </p>
+            </div>
+          )}
         </div>
 
         <motion.button
+          onClick={() => setCompareOpen(true)}
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
           onClick={() => setCompareOpen(true)}
           className="w-full mb-3 h-12 rounded-xl bg-white/5 border border-white/10 text-sm font-medium hover:bg-white/8 transition-colors"

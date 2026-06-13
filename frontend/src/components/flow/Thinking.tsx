@@ -15,7 +15,7 @@ export function Thinking() {
   const [line, setLine] = useState(0);
   useEffect(() => {
     const t1 = setInterval(() => setLine((l) => Math.min(l + 1, LINES.length - 1)), 700);
-    const t2 = setTimeout(next, 6000);
+    const t2 = setTimeout(next, 12000);
     return () => { clearInterval(t1); clearTimeout(t2); };
   }, [next]);
 

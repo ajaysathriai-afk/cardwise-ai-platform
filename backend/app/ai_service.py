@@ -52,3 +52,40 @@ if __name__ == "__main__":
     )
 
     print(result)
+
+
+def generate_financial_insight(
+    monthly_spend,
+    annual_reward,
+    priority
+):
+
+    prompt = f"""
+    User Monthly Spend: ₹{monthly_spend}
+
+    Estimated Annual Rewards: ₹{annual_reward}
+
+    Priority:
+    {priority}
+
+    Act as a fintech advisor.
+
+    Give:
+    1. Reward insight
+    2. Spending insight
+    3. One recommendation
+
+    Limit to 4 sentences.
+    """
+
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
+        messages=[
+            {
+                "role": "user",
+                "content": prompt
+            }
+        ]
+    )
+
+    return response.choices[0].message.content
