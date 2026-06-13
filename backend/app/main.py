@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import List
 
 from app.recommend import generate_recommendation
+from app.rag.rag_service import ask_rag
 
 app = FastAPI(
     title="CardWise AI Backend",
