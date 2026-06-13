@@ -1,8 +1,13 @@
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
+
+print("OPENAI KEY =", bool(os.getenv("OPENAI_API_KEY")))
 
 PDF_FOLDER = "data/card_pdfs"
 DB_FOLDER = "vector_db"
@@ -37,8 +42,8 @@ chunks = splitter.split_documents(all_docs)
 
 print("Chunks Created:", len(chunks))
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-MiniLM-L6-v2"
+embeddings = OpenAIEmbeddings(
+    api_key=os.getenv("OPENAI_API_KEY")
 )
 
 vectordb = Chroma.from_documents(

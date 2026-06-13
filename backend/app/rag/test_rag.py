@@ -1,4 +1,4 @@
-from rag_service import ask_rag
+from app.rag.rag_service import ask_rag
 
 question = "What is Boarding Edge?"
 

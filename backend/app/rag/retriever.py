@@ -1,5 +1,8 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from langchain_community.vectorstores import Chroma
-from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_openai import OpenAIEmbeddings
 import os
 
 DB_FOLDER = "vector_db"
@@ -16,8 +19,9 @@ print("=" * 50)
 
 def get_vectordb():
     print("STEP 1")
-    embeddings = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    print("OPENAI KEY =", bool(os.getenv("OPENAI_API_KEY")))
+    embeddings = OpenAIEmbeddings(
+        api_key=os.getenv("OPENAI_API_KEY")
     )
     print("STEP 2")
     print("CURRENT DIR =", os.getcwd())
