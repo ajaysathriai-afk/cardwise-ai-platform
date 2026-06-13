@@ -15,11 +15,11 @@ print("=" * 50)
 
 
 def get_vectordb():
-
+    print("STEP 1")
     embeddings = HuggingFaceEmbeddings(
         model_name="sentence-transformers/all-MiniLM-L6-v2"
     )
-
+    print("STEP 2")
     print("CURRENT DIR =", os.getcwd())
     print("DB FOLDER =", DB_FOLDER)
 
