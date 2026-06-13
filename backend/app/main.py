@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
-from app.rag.rag_service import ask_rag
+
 from app.recommend import generate_recommendation
 
 app = FastAPI(
@@ -53,6 +53,8 @@ def recommend(user: UserInput):
 
 @app.post("/ask-card-question")
 def ask_card_question(data: RAGRequest):
+
+    from app.rag.rag_service import ask_rag
 
     answer = ask_rag(
         data.question
