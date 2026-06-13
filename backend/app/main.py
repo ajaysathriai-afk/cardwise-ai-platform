@@ -54,6 +54,10 @@ def recommend(user: UserInput):
 @app.post("/ask-card-question")
 def ask_card_question(data: RAGRequest):
 
+    answer = ask_rag(
+        data.question
+    )
+
     return {
-        "answer": "RAG endpoint available in local environment."
+        "answer": answer
     }
