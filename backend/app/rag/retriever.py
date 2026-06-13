@@ -4,6 +4,15 @@ import os
 
 DB_FOLDER = "vector_db"
 
+import os
+
+print("=" * 50)
+print("CURRENT DIR =", os.getcwd())
+print("DB_FOLDER =", DB_FOLDER)
+print("ABS PATH =", os.path.abspath(DB_FOLDER))
+print("DB EXISTS =", os.path.exists(DB_FOLDER))
+print("=" * 50)
+
 
 def get_vectordb():
 
