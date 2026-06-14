@@ -13,7 +13,12 @@ export function CardVisual({ card, size = "lg", interactive = true }: Props) {
   const rotateX = useTransform(sy, [-50, 50], [10, -10]);
   const rotateY = useTransform(sx, [-50, 50], [-10, 10]);
 
-  const dims = size === "lg" ? "w-full aspect-[1.586/1]" : size === "md" ? "w-56 aspect-[1.586/1]" : "w-36 aspect-[1.586/1]";
+  const dims =
+    size === "lg"
+      ? "w-[520px] aspect-[1.586/1] max-w-full"
+      : size === "md"
+      ? "w-72 aspect-[1.586/1]"
+      : "w-40 aspect-[1.586/1]";
 
   function handleMove(e: React.PointerEvent) {
     if (!interactive || !ref.current) return;

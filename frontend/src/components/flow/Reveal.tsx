@@ -1,3 +1,4 @@
+import { CardAssistant } from "@/components/rag/CardAssistant";
 import { fetchRecommendation } from "@/lib/api";
 import { useEffect } from "react";
 import { useState } from "react";
@@ -58,7 +59,7 @@ export function Reveal() {
 
   if (loading || !top) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
+      <div className="min-h-svh max-w-7xl mx-auto px-6 pt-8 pb-24 relative">
         <div className="text-center">
           <div className="w-10 h-10 border-2 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4" />
           <p className="text-sm text-muted-foreground">
@@ -96,15 +97,20 @@ export function Reveal() {
         <motion.div
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          transition={{ type: "spring", stiffness: 200, damping: 22, delay: 0.2 }}
-          className="mb-8"
+          transition={{
+            type: "spring",
+            stiffness: 200,
+            damping: 22,
+            delay: 0.2,
+          }}
+          className="mb-10 flex justify-center"
         >
           <CardVisual card={top.card} size="lg" />
-        </motion.div>
+        </motion.div>        
 
         <motion.div
           initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}
-          className="grid grid-cols-3 gap-2 mb-8"
+          className="grid md:grid-cols-3 gap-4 mb-10 max-w-5xl mx-auto"
         >
           {[
             ["Annual fee", `₹${top.card.annualFee.toLocaleString("en-IN")}`],
@@ -118,53 +124,74 @@ export function Reveal() {
           ))}
         </motion.div>
 
-        <div className="mb-8">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium tracking-wide">Why this card fits you</h3>
-            <span className="text-[10px] text-[var(--accent)] uppercase tracking-widest">AI-generated</span>
+        <div className="grid lg:grid-cols-[minmax(0,1fr)_340px] gap-6 mb-10">
+
+           {/* LEFT SIDE */}
+          <div>
+
+            <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-medium tracking-wide">
+                  Why this card fits you
+                </h3>
+                <span className="text-[10px] text-[var(--accent)] uppercase tracking-widest">
+                  AI-generated
+                </span>
+            </div>
+
+            <ReasonAccordion reasons={top.reasons} />
+
+            {aiExplanation && (
+              <div className="mt-4 rounded-2xl bg-white/5 border border-white/10 p-4">
+                <div className="text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
+                  AI Insight
+                </div>
+
+                 <p className="text-sm text-muted-foreground leading-relaxed">
+                   {aiExplanation}
+                 </p>
+              </div>
+            )}
+
+            {financialInsight && (
+              <div className="mt-4 rounded-2xl bg-white/5 border border-white/10 p-4">
+                <div className="text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
+                  Financial Insight
+                </div>
+
+                 <p className="text-sm text-muted-foreground leading-relaxed">
+                    {financialInsight}
+                  </p>
+              </div>
+            )}
+
+            {rewardOptimization && (
+              <div className="mt-4 rounded-2xl bg-white/5 border border-white/10 p-4">
+                <div className="text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
+                  Reward Optimization
+                </div>
+
+                 <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
+                    {rewardOptimization}
+                  </p>
+             </div>
+            )}
+
           </div>
-          <ReasonAccordion reasons={top.reasons} />
-          {aiExplanation && (
-           <div className="mt-4 rounded-2xl bg-white/5 border border-white/10 p-4">
-              <div className="text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
-                AI Insight
-              </div>
- 
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {aiExplanation}
-              </p>
-            </div>
-          )}
-          {financialInsight && (
-            <div className="mt-4 rounded-2xl bg-white/5 border border-white/10 p-4">
-              <div className="text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
-                Financial Insight
-              </div>
 
-              <p className="text-sm text-muted-foreground leading-relaxed">
-                {financialInsight}
-              </p>
+         {/* RIGHT SIDE */}
+            <div className="lg:sticky lg:top-6 h-fit">
+              <CardAssistant />
             </div>
-          )}
-          {rewardOptimization && (
-            <div className="mt-4 rounded-2xl bg-white/5 border border-white/10 p-4">
-              <div className="text-xs uppercase tracking-widest text-[var(--accent)] mb-2">
-                Reward Optimization
-              </div>
 
-              <p className="text-sm text-muted-foreground leading-relaxed whitespace-pre-line">
-                {rewardOptimization}
-              </p>
-            </div>
-          )}
         </div>
 
         <motion.button
-          onClick={() => setCompareOpen(true)}
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.8 }}
           onClick={() => setCompareOpen(true)}
           className="w-full mb-3 h-12 rounded-xl bg-white/5 border border-white/10 text-sm font-medium hover:bg-white/8 transition-colors"
-        >
+          >
           Compare with {alts.length} alternatives ↑
         </motion.button>
 
