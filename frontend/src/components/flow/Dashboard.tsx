@@ -21,11 +21,9 @@ export function Dashboard() {
   const answers = useFlowStore((s) => s.answers);
   const reset = useFlowStore((s) => s.reset);
   const appliedCard = recommendedCard;
-  console.log("SAVED IDS =", saved);
-  console.log("APPLIED =", applied);
-  console.log("RECOMMENDED =", recommendedCard);
+  
 
-const savedCards = [];
+  const savedCards: Card[] = [];
   const portfolio = [appliedCard, ...savedCards].filter(Boolean) as Card[];
 
   const totalProjected = portfolio.reduce(

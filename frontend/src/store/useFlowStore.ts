@@ -42,7 +42,7 @@ interface FlowState {
   reset: () => void;
   save: (id: string) => void;
   apply: (id: string) => void;
-  setRecommendedCard: (card: any) => void;
+  
 }
 
 const ORDER: Step[] = [

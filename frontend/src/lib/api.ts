@@ -2,7 +2,7 @@ const API_BASE_URL =
   import.meta.env.VITE_API_URL ||
   "https://cardwise-backend-y4wv.onrender.com";
 
-console.log("API URL =", API_BASE_URL);  
+
 
 export async function fetchRecommendation(data: any) {
   const response = await fetch(

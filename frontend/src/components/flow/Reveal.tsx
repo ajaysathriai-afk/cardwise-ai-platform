@@ -30,46 +30,64 @@ export function Reveal() {
   const [detail, setDetail] = useState<Recommendation | null>(null);
   const [aiExplanation, setAiExplanation] = useState("");
   const [otpOpen, setOtpOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     async function loadRecommendation() {
       try {
         setLoading(true);
-  
+        setError(null);
+
         const res = await fetchRecommendation(answers);
 
-        console.log("FULL RESPONSE =", res);
-        console.log("TOP =", res.top);
-        console.log("ALTS =", res.alts);
-  
         setTop(res.top);
         setAlts(res.alts || []);
         setFinancialInsight(res.financial_insight || "");
-        setRewardOptimization( res.reward_optimization || "");
+        setRewardOptimization(res.reward_optimization || "");
         setAiExplanation(res.ai_explanation || "");
         setRecommendedCard(res.top.card);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
+        setError(
+          "We couldn't generate your recommendation right now. Please try again in a moment."
+        );
       } finally {
         setLoading(false);
       }
     }
-  
+
     loadRecommendation();
   }, [answers]);
 
-  if (loading || !top) {
+  if (loading) {
     return (
       <div className="min-h-svh max-w-7xl mx-auto px-6 pt-8 pb-24 relative">
         <div className="text-center">
           <div className="w-10 h-10 border-2 border-white/20 border-t-white rounded-full animate-spin mx-auto mb-4" />
           <p className="text-sm text-muted-foreground">
-            Generating your AI recommendation...
+            Waking up the AI engine — this can take up to a minute on first load...
           </p>
         </div>
       </div>
     );
   }
 
+  if (error || !top) {
+    return (
+      <div className="min-h-svh max-w-7xl mx-auto px-6 pt-8 pb-24 relative">
+        <div className="text-center max-w-md mx-auto">
+          <p className="text-sm text-muted-foreground mb-4">
+            {error || "Something went wrong. Please try again."}
+          </p>
+          <button
+            onClick={() => window.location.reload()}
+            className="h-12 px-6 rounded-xl bg-[var(--accent)] text-white font-semibold text-sm glow-violet"
+          >
+            Try again
+          </button>
+        </div>
+      </div>
+    );
+  }
   const isSaved = saved.includes(top.card.id);
 
   return (
