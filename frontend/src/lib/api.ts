@@ -1,11 +1,9 @@
-const API_BASE_URL = "http://127.0.0.1:8000";
+const API_BASE_URL =
+  "https://cardwise-backend-y4wv.onrender.com";
+
 export async function fetchRecommendation(data: any) {
-  console.log("ANSWERS:", data);
-
-  const start = performance.now();
-
   const response = await fetch(
-    "http://127.0.0.1:8000/recommend",
+    `${API_BASE_URL}/recommend`,
     {
       method: "POST",
       headers: {
@@ -21,22 +19,16 @@ export async function fetchRecommendation(data: any) {
     }
   );
 
-  const result = await response.json();
+  if (!response.ok) {
+    throw new Error("Recommendation failed");
+  }
 
-  console.log(
-    "TOTAL API TIME =",
-    ((performance.now() - start) / 1000).toFixed(2),
-    "seconds"
-  );
-
-  console.log("RESULT:", result);
-
-  return result;
+  return response.json();
 }
 
 export async function askCardQuestion(question: string) {
   const response = await fetch(
-    "http://127.0.0.1:8000/ask-card-question",
+    `${API_BASE_URL}/ask-card-question`,
     {
       method: "POST",
       headers: {
