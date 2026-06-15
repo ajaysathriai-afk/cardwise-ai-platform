@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from recommend import UserInput, generate_recommendation
 
 app = FastAPI(title="Recommendation Service")
 
@@ -9,7 +10,5 @@ def health():
 
 
 @app.post("/recommend")
-def recommend():
-    return {
-        "message": "recommendation service working"
-    }
+def recommend_endpoint(data: UserInput):
+    return generate_recommendation(data)

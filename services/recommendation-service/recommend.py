@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 from typing import List
-from app.database import supabase
-from app.ai_service import (
+from database import supabase
+from ai_service import (
     generate_ai_explanation,
     generate_financial_insight,
     generate_reward_optimization

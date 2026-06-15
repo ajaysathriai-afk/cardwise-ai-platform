@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 import httpx
 
 app = FastAPI(title="CardWise API Gateway")
@@ -12,9 +12,9 @@ def health():
 @app.get("/recommend-health")
 async def recommendation_health():
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=60.0) as client:
         response = await client.get(
-            "http://localhost:8001/health"
+            "http://recommendation-service:8001/health"
         )
 
     return response.json()
@@ -23,19 +23,22 @@ async def recommendation_health():
 @app.get("/rag-health")
 async def rag_health():
 
-    async with httpx.AsyncClient() as client:
+    async with httpx.AsyncClient(timeout=60.0) as client:
         response = await client.get(
-            "http://localhost:8002/health"
+            "http://rag-service:8002/health"
         )
 
     return response.json()
+
 @app.post("/recommend")
-async def recommend():
+async def recommend(request: Request):
 
-    async with httpx.AsyncClient() as client:
+    payload = await request.json()
+
+    async with httpx.AsyncClient(timeout=60.0) as client:
         response = await client.post(
-            "http://localhost:8001/recommend"
+            "http://recommendation-service:8001/recommend",
+            json=payload
         )
 
     return response.json()
-
