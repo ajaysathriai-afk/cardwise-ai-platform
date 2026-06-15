@@ -1,0 +1,13 @@
+venv/
+__pycache__/
+*.pyc
+.git
+.gitignore
+.env
+.DS_Store
+
+data/card_pdfs/
+
+app/__pycache__/
+app/rag/__pycache__/
+app/routers/__pycache__/
