@@ -1,10 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-from typing import List
-
-from app.recommend import generate_recommendation
-from app.rag.rag_service import ask_rag
+from app.routers import health, recommendations, rag
 
 app = FastAPI(
     title="CardWise AI Backend",
@@ -20,45 +16,6 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-class UserInput(BaseModel):
-    categories: List[str]
-    monthly_spend: int
-    priority: str
-    fee_tolerance: str
-    income: str
-
-class RAGRequest(BaseModel):
-    question: str
-
-@app.get("/")
-def home():
-    return {
-        "message": "CardWise AI Backend Running 🚀"
-    }
-
-
-@app.get("/health")
-def health():
-    return {
-        "status": "healthy"
-    }
-
-
-@app.post("/recommend")
-def recommend(user: UserInput):
-
-    result = generate_recommendation(user)
-
-    return result
-
-@app.post("/ask-card-question")
-def ask_card_question(data: RAGRequest):
-
-    answer = ask_rag(
-        data.question
-    )
-
-    return {
-        "answer": answer
-    }
+app.include_router(health.router)
+app.include_router(recommendations.router)
+app.include_router(rag.router)
