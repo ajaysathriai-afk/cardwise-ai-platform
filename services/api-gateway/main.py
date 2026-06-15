@@ -42,3 +42,16 @@ async def recommend(request: Request):
         )
 
     return response.json()
+
+@app.post("/rag")
+async def rag(request: Request):
+
+    payload = await request.json()
+
+    async with httpx.AsyncClient(timeout=60.0) as client:
+        response = await client.post(
+            "http://rag-service:8002/rag",
+            json=payload
+        )
+
+    return response.json()

@@ -1,5 +1,5 @@
 from openai import OpenAI
-from app.rag.retriever import search_docs
+from retriever import search_docs
 import os
 from dotenv import load_dotenv
 
@@ -9,10 +9,16 @@ client = OpenAI(
     api_key=os.getenv("OPENAI_API_KEY")
 )
 
-
 def ask_rag(question):
 
+    print("ASK_RAG CALLED")
     docs = search_docs(question)
+
+    print("DOC COUNT =", len(docs))
+
+    for i, doc in enumerate(docs):
+        print(f"\nDOC {i+1}")
+        print(doc.page_content[:500]) 
 
     context = "\n\n".join(
         [doc.page_content for doc in docs]
@@ -42,4 +48,4 @@ def ask_rag(question):
         ]
     )
 
-    return response.choices[0].message.content
+    return response.choices[0].message.content      
