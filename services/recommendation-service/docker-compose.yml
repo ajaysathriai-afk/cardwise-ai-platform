@@ -1,6 +1,0 @@
-recommendation-service:
-  build: ./services/recommendation-service
-  ports:
-    - "8001:8001"
-  env_file:
-    - ./backend/.env
