@@ -77,6 +77,14 @@ jobs:
         run: |
           sleep 20
 
+      - name: Show Container Status
+        run: |
+          docker ps -a
+
+      - name: Show Compose Logs
+        run: |
+          docker compose logs
+
       - name: Check API Gateway
         run: |
           curl --fail http://localhost:8000/health
