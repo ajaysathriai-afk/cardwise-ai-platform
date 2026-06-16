@@ -1,7 +1,15 @@
+import logging
 from fastapi import FastAPI, Request
 import httpx
 
 app = FastAPI(title="CardWise API Gateway")
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
+
+logger = logging.getLogger(__name__)
 
 
 @app.get("/health")
@@ -34,13 +42,17 @@ async def rag_health():
 async def recommend(request: Request):
 
     payload = await request.json()
-
+    
+    logger.info("Recommendation request received")
+       
     async with httpx.AsyncClient(timeout=60.0) as client:
         response = await client.post(
             "http://recommendation-service:8001/recommend",
             json=payload
         )
 
+    logger.info("Recommendation response returned")
+    
     return response.json()
 
 @app.post("/rag")
@@ -48,10 +60,14 @@ async def rag(request: Request):
 
     payload = await request.json()
 
+    logger.info("RAG request received")
+
     async with httpx.AsyncClient(timeout=60.0) as client:
         response = await client.post(
             "http://rag-service:8002/rag",
             json=payload
         )
+
+    logger.info("RAG response returned")
 
     return response.json()
