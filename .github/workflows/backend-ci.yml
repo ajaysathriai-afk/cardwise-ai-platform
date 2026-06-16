@@ -52,7 +52,9 @@ jobs:
 
       - name: Build ${{ matrix.service }} Docker Image
         run: |
-          docker build -t cardwise-${{ matrix.service }} ./services/${{ matrix.service }}
+          docker build \
+            -t cardwise-${{ matrix.service }} \
+            ./services/${{ matrix.service }}
 
   integration-health-check:
     runs-on: ubuntu-latest
@@ -67,7 +69,10 @@ jobs:
       - name: Create Environment Files
         run: |
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > services/rag-service/.env
+
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > services/recommendation-service/.env
+          echo "SUPABASE_URL=${{ secrets.SUPABASE_URL }}" >> services/recommendation-service/.env
+          echo "SUPABASE_KEY=${{ secrets.SUPABASE_KEY }}" >> services/recommendation-service/.env
 
       - name: Start Services
         run: |
