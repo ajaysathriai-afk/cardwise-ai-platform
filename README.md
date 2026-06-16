@@ -1,24 +1,28 @@
 # CardWise AI Platform
 
-AI-powered credit card recommendation platform built using FastAPI, OpenAI, Retrieval-Augmented Generation (RAG), Supabase, Docker, GitHub Actions, and AWS Microservices Architecture.
+AI-powered credit card recommendation platform built using React, FastAPI, OpenAI, Retrieval-Augmented Generation (RAG), PostgreSQL, ChromaDB, Docker, GitHub Actions, Cloudflare, Nginx, and AWS Microservices Architecture.
 
-CardWise helps users discover the most suitable credit cards based on spending behavior, lifestyle preferences, annual fee tolerance, reward goals, and travel requirements. The platform combines recommendation algorithms, Large Language Models (LLMs), financial insights, and document intelligence to deliver explainable recommendations.
+CardWise AI helps users discover the most suitable credit cards based on spending behavior, lifestyle preferences, annual fee tolerance, reward goals, and travel requirements. The platform combines recommendation algorithms, financial insights, reward optimization, vector search, and AI-powered knowledge retrieval to deliver explainable recommendations.
 
 ---
 
 # Live Deployment
 
-### Production URL
+## Frontend
 
-http://cardwise-ai.duckdns.org
+https://tanstack-start-app.ajaysathri-ai.workers.dev
 
-### Health Endpoints
+## Backend API
 
-http://cardwise-ai.duckdns.org/health
+https://cardwise-ai.duckdns.org
 
-http://cardwise-ai.duckdns.org/recommend-health
+## Health Endpoints
 
-http://cardwise-ai.duckdns.org/rag-health
+https://cardwise-ai.duckdns.org/health
+
+https://cardwise-ai.duckdns.org/recommend-health
+
+https://cardwise-ai.duckdns.org/rag-health
 
 ---
 
@@ -32,6 +36,9 @@ http://cardwise-ai.duckdns.org/rag-health
 * Reward optimization suggestions
 * Financial spending insights
 * AI-generated recommendation explanations
+* Estimated annual rewards calculation
+
+---
 
 ## GenAI Layer
 
@@ -39,6 +46,9 @@ http://cardwise-ai.duckdns.org/rag-health
 * Personalized financial guidance
 * Context-aware recommendation generation
 * Reward maximization recommendations
+* AI-powered recommendation explanations
+
+---
 
 ## Retrieval-Augmented Generation (RAG)
 
@@ -48,16 +58,23 @@ http://cardwise-ai.duckdns.org/rag-health
 * Semantic search and retrieval
 * Credit card policy question answering
 * Knowledge-grounded responses
+* Financial knowledge assistant
+
+---
 
 ## Cloud & Infrastructure
 
-* Dockerized microservices
+* Dockerized microservices architecture
 * API Gateway architecture
 * AWS EC2 deployment
 * Nginx reverse proxy
 * Elastic IP configuration
-* GitHub Actions CI pipeline
+* GitHub Actions CI/CD
+* Cloudflare frontend deployment
 * Public domain hosting
+* Production logging
+* Health monitoring endpoints
+* Service observability
 
 ---
 
@@ -66,23 +83,27 @@ http://cardwise-ai.duckdns.org/rag-health
 ```mermaid
 flowchart TD
 
-A[User] --> B[cardwise-ai.duckdns.org]
+A[User Browser]
 
-B --> C[Nginx Reverse Proxy]
+A --> B[Cloudflare Workers Frontend]
 
-C --> D[API Gateway]
+B --> C[cardwise-ai.duckdns.org]
 
-D --> E[Recommendation Service]
+C --> D[Nginx Reverse Proxy]
 
-D --> F[RAG Service]
+D --> E[FastAPI API Gateway]
 
-E --> G[OpenAI GPT]
+E --> F[Recommendation Service]
 
-E --> H[Supabase]
+E --> G[RAG Service]
 
-F --> I[ChromaDB Vector Store]
+F --> H[PostgreSQL]
 
-F --> G
+F --> I[OpenAI GPT]
+
+G --> J[ChromaDB]
+
+G --> I
 ```
 
 ---
@@ -98,7 +119,7 @@ A --> B[Recommendation Service<br>Port 8001]
 
 A --> C[RAG Service<br>Port 8002]
 
-B --> D[Supabase]
+B --> D[PostgreSQL]
 
 B --> E[OpenAI GPT]
 
@@ -128,7 +149,7 @@ D --> F[Build Recommendation Service]
 
 D --> G[Build RAG Service]
 
-E --> H[Integration Tests]
+E --> H[Validation]
 
 F --> H
 
@@ -139,7 +160,7 @@ H --> I[Production Ready]
 
 ---
 
-# AWS Deployment Architecture
+# AWS Production Architecture
 
 ```mermaid
 flowchart TD
@@ -156,7 +177,7 @@ C --> D[Recommendation Service]
 
 C --> E[RAG Service]
 
-D --> F[Supabase]
+D --> F[PostgreSQL]
 
 D --> G[OpenAI GPT]
 
@@ -166,6 +187,38 @@ E --> G
 
 end
 ```
+
+---
+
+# Monitoring & Reliability
+
+## Monitoring
+
+* Health monitoring endpoints
+* Service status monitoring
+* Docker service visibility
+* Production deployment validation
+
+## Logging
+
+* API Gateway request logging
+* Recommendation service logging
+* RAG service logging
+* Docker container logs
+
+## Reliability
+
+* Docker restart policies
+* Health checks
+* Service recovery support
+* Production deployment hardening
+
+## Observability
+
+* Easier debugging
+* Service-level monitoring
+* Request tracing through microservices
+* Production troubleshooting support
 
 ---
 
@@ -181,6 +234,7 @@ Responsibilities:
 * Service orchestration
 * Unified API interface
 * Health monitoring
+* Cross-service communication
 
 ---
 
@@ -192,9 +246,9 @@ Responsibilities:
 
 * Credit card ranking
 * Recommendation generation
-* OpenAI-powered explanations
 * Financial insights generation
 * Reward optimization analysis
+* AI-powered explanations
 
 ---
 
@@ -222,6 +276,9 @@ Responsibilities:
 * Tailwind CSS
 * Framer Motion
 * Zustand
+* Cloudflare Workers
+
+---
 
 ## Backend
 
@@ -230,13 +287,18 @@ Responsibilities:
 * Pydantic
 * REST APIs
 
+---
+
 ## AI & Data
 
-* OpenAI GPT-4o
+* OpenAI GPT
 * OpenAI Embeddings
 * Retrieval-Augmented Generation (RAG)
+* PostgreSQL
+* pgvector
 * ChromaDB
-* Supabase
+
+---
 
 ## Infrastructure
 
@@ -251,26 +313,29 @@ Responsibilities:
 
 ---
 
-# AWS Deployment
+# Production Deployment
 
-Production Infrastructure:
+## Infrastructure
 
 * AWS EC2 Ubuntu Server
 * Docker Compose Orchestration
 * Nginx Reverse Proxy
 * Elastic IP
 * DuckDNS Domain
+* Cloudflare Frontend Hosting
 
-Production Services:
+## Production Services
 
 * API Gateway
 * Recommendation Service
 * RAG Service
 
-Deployment Model:
+## Deployment Flow
 
 ```text
-Internet
+User Browser
+↓
+Cloudflare Frontend
 ↓
 DuckDNS Domain
 ↓
@@ -280,7 +345,7 @@ API Gateway
 ↓
 Recommendation Service + RAG Service
 ↓
-OpenAI + Supabase + ChromaDB
+PostgreSQL + OpenAI + ChromaDB
 ```
 
 ---
@@ -305,11 +370,11 @@ Example Request:
 
 ```json
 {
-  "categories":["travel"],
-  "monthly_spend":50000,
-  "priority":"rewards",
-  "fee_tolerance":"medium",
-  "income":"12to25"
+  "categories": ["travel"],
+  "monthly_spend": 50000,
+  "priority": "rewards",
+  "fee_tolerance": "medium",
+  "income": "12to25"
 }
 ```
 
@@ -325,7 +390,7 @@ Example Request:
 
 ```json
 {
-  "question":"What lounge access benefits does HDFC Regalia Gold provide?"
+  "question": "What lounge access benefits does HDFC Regalia Gold provide?"
 }
 ```
 
@@ -397,29 +462,49 @@ docker compose up --build
 
 ---
 
-# Achievements
+# Key Achievements
 
-* Built end-to-end AI-powered fintech platform
-* Implemented Retrieval-Augmented Generation (RAG)
-* Designed microservices architecture using FastAPI
-* Integrated OpenAI GPT for recommendation explainability
-* Built vector search pipeline using ChromaDB
-* Configured GitHub Actions CI pipeline
+* Built an end-to-end AI-powered fintech recommendation platform
+* Designed and implemented FastAPI microservices architecture
+* Developed a Retrieval-Augmented Generation (RAG) pipeline using OpenAI and ChromaDB
+* Integrated PostgreSQL and vector search capabilities
 * Containerized services using Docker and Docker Compose
+* Implemented GitHub Actions CI/CD workflows
 * Deployed production workloads on AWS EC2
 * Configured Nginx reverse proxy and public domain routing
+* Integrated Cloudflare frontend deployment
+* Implemented monitoring, logging, and service observability
+* Resolved real-world deployment challenges involving CORS, HTTPS, reverse proxies, container networking, and frontend-backend integration
 
 ---
 
 # Future Enhancements
 
-* Automated GitHub → AWS deployment
-* HTTPS SSL certificates
-* Monitoring and observability
-* User authentication
-* Usage analytics dashboard
+* User authentication and authorization
 * Credit score integration
+* Real-time bank offer ingestion
+* Advanced analytics dashboard
+* Usage tracking and insights
 * Multi-bank product support
+* Custom production domain
+
+---
+
+# Project Status
+
+## CardWise AI v1.0
+
+✅ Production Deployed
+
+✅ End-to-End Functional
+
+✅ Cloud Hosted
+
+✅ Portfolio Ready
+
+✅ CI/CD Enabled
+
+✅ Monitoring & Logging Enabled
 
 ---
 
@@ -427,10 +512,8 @@ docker compose up --build
 
 ### Ajay Kumar Sathri
 
-AI Engineer | Data Science | GenAI | Full Stack Development
+AI Engineer | Data Science | Generative AI | Full Stack Development
 
 GitHub:
 
 https://github.com/ajaysathriai-afk
-deploy test
-Auto Deploy Test
