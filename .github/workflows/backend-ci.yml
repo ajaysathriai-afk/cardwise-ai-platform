@@ -4,16 +4,20 @@ on:
   push:
     branches:
       - main
+
   pull_request:
     branches:
       - main
 
 jobs:
+
   legacy-backend-build:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: backend
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -34,9 +38,14 @@ jobs:
 
   microservices-build:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
-        service: [api-gateway, recommendation-service, rag-service]
+        service:
+          - api-gateway
+          - recommendation-service
+          - rag-service
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -47,23 +56,26 @@ jobs:
 
   integration-health-check:
     runs-on: ubuntu-latest
-    needs: microservices-build
+
+    needs:
+      - microservices-build
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-        - name: Create Environment Files
-           run: |
-            echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > services/rag-service/.env
-            echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > services/recommendation-service/.env
+      - name: Create Environment Files
+        run: |
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > services/rag-service/.env
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > services/recommendation-service/.env
 
       - name: Start Services
         run: |
           docker compose up -d
 
       - name: Wait For Startup
-        run: sleep 20
+        run: |
+          sleep 20
 
       - name: Check API Gateway
         run: |
