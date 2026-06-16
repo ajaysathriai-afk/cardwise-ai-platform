@@ -53,6 +53,11 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+        - name: Create Environment Files
+           run: |
+            echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > services/rag-service/.env
+            echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" > services/recommendation-service/.env
+
       - name: Start Services
         run: |
           docker compose up -d
