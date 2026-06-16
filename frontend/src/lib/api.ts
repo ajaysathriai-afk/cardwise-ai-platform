@@ -1,6 +1,6 @@
 const API_BASE_URL =
   import.meta.env.VITE_API_URL ||
-  "https://cardwise-backend-y4wv.onrender.com";
+  "https://cardwise-ai.duckdns.org";
 
 
 
@@ -31,7 +31,7 @@ export async function fetchRecommendation(data: any) {
 
 export async function askCardQuestion(question: string) {
   const response = await fetch(
-    `${API_BASE_URL}/ask-card-question`,
+    `${API_BASE_URL}/rag`,
     {
       method: "POST",
       headers: {
