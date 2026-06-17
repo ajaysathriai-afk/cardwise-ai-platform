@@ -1,6 +1,6 @@
 # CardWise AI Platform
 
-AI-powered credit card recommendation platform built using React, FastAPI, OpenAI, Retrieval-Augmented Generation (RAG), PostgreSQL, ChromaDB, Docker, GitHub Actions, Cloudflare, Nginx, and AWS Microservices Architecture.
+AI-powered credit card recommendation platform built using React, FastAPI, OpenAI, Retrieval-Augmented Generation (RAG), Supabase (PostgreSQL), ChromaDB, Docker, GitHub Actions, Cloudflare, Nginx, and AWS Microservices Architecture.
 
 CardWise AI helps users discover the most suitable credit cards based on spending behavior, lifestyle preferences, annual fee tolerance, reward goals, and travel requirements. The platform combines recommendation algorithms, financial insights, reward optimization, vector search, and AI-powered knowledge retrieval to deliver explainable recommendations.
 
@@ -23,6 +23,10 @@ https://cardwise-ai.duckdns.org/health
 https://cardwise-ai.duckdns.org/recommend-health
 
 https://cardwise-ai.duckdns.org/rag-health
+
+## GitHub Repository
+
+https://github.com/ajaysathriai-afk/cardwise-ai-platform
 
 ---
 
@@ -97,7 +101,7 @@ E --> F[Recommendation Service]
 
 E --> G[RAG Service]
 
-F --> H[PostgreSQL]
+F --> H[Supabase PostgreSQL]
 
 F --> I[OpenAI GPT]
 
@@ -119,7 +123,7 @@ A --> B[Recommendation Service<br>Port 8001]
 
 A --> C[RAG Service<br>Port 8002]
 
-B --> D[PostgreSQL]
+B --> D[Supabase]
 
 B --> E[OpenAI GPT]
 
@@ -177,7 +181,7 @@ C --> D[Recommendation Service]
 
 C --> E[RAG Service]
 
-D --> F[PostgreSQL]
+D --> F[Supabase]
 
 D --> G[OpenAI GPT]
 
@@ -294,7 +298,7 @@ Responsibilities:
 * OpenAI GPT
 * OpenAI Embeddings
 * Retrieval-Augmented Generation (RAG)
-* PostgreSQL
+* Supabase (PostgreSQL)
 * pgvector
 * ChromaDB
 
@@ -345,7 +349,7 @@ API Gateway
 ↓
 Recommendation Service + RAG Service
 ↓
-PostgreSQL + OpenAI + ChromaDB
+Supabase + OpenAI + ChromaDB
 ```
 
 ---
@@ -357,8 +361,6 @@ PostgreSQL + OpenAI + ChromaDB
 ```http
 GET /health
 ```
-
----
 
 ## Recommendation API
 
@@ -377,8 +379,6 @@ Example Request:
   "income": "12to25"
 }
 ```
-
----
 
 ## RAG API
 
@@ -402,62 +402,16 @@ Example Request:
 cardwise-ai-platform/
 
 ├── frontend/
-│
 ├── backend/
-│
 ├── services/
 │   ├── api-gateway/
 │   ├── recommendation-service/
 │   └── rag-service/
-│
 ├── .github/
 │   └── workflows/
-│
 ├── docker-compose.yml
-│
 ├── screenshots/
-│
 └── README.md
-```
-
----
-
-# Screenshots
-
-### Landing Page
-
-<img src="screenshots/landing.png" width="100%" />
-
-### Recommendation Engine
-
-<img src="screenshots/recommendation.png" width="100%" />
-
-### Compare Cards
-
-<img src="screenshots/compare.png" width="100%" />
-
-### OTP Flow
-
-<img src="screenshots/otp.png" width="100%" />
-
-### Dashboard
-
-<img src="screenshots/dashboard.png" width="100%" />
-
----
-
-# Local Development
-
-Clone Repository
-
-```bash
-git clone https://github.com/ajaysathriai-afk/cardwise-ai-platform.git
-```
-
-Start Application
-
-```bash
-docker compose up --build
 ```
 
 ---
@@ -466,15 +420,16 @@ docker compose up --build
 
 * Built an end-to-end AI-powered fintech recommendation platform
 * Designed and implemented FastAPI microservices architecture
-* Developed a Retrieval-Augmented Generation (RAG) pipeline using OpenAI and ChromaDB
-* Integrated PostgreSQL and vector search capabilities
+* Developed a Retrieval-Augmented Generation (RAG) pipeline using OpenAI Embeddings and ChromaDB
+* Integrated Supabase (PostgreSQL) for credit card data management
+* Built semantic search and knowledge retrieval capabilities for credit card policy assistance
 * Containerized services using Docker and Docker Compose
 * Implemented GitHub Actions CI/CD workflows
 * Deployed production workloads on AWS EC2
 * Configured Nginx reverse proxy and public domain routing
 * Integrated Cloudflare frontend deployment
-* Implemented monitoring, logging, and service observability
-* Resolved real-world deployment challenges involving CORS, HTTPS, reverse proxies, container networking, and frontend-backend integration
+* Implemented monitoring, logging, health checks, and service observability
+* Resolved real-world deployment challenges involving CORS, HTTPS, reverse proxies, container networking, Docker orchestration, and frontend-backend integration
 
 ---
 
@@ -486,7 +441,10 @@ docker compose up --build
 * Advanced analytics dashboard
 * Usage tracking and insights
 * Multi-bank product support
-* Custom production domain
+* Rate limiting and API security
+* Advanced monitoring and observability dashboards
+* Automated GitHub-to-AWS deployment pipeline
+* Custom .com domain
 
 ---
 
