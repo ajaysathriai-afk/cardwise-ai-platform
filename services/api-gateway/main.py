@@ -1,8 +1,17 @@
 import logging
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, Request
 import httpx
 
 app = FastAPI(title="CardWise API Gateway")
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 logging.basicConfig(
     level=logging.INFO,
